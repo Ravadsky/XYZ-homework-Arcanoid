@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Sources\GameStates">
+      <UniqueIdentifier>{105765cf-c4a9-47b4-b6fc-ab10239ae931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Core">
+      <UniqueIdentifier>{86caa11a-1116-4414-bf16-2566782278ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Utilities">
+      <UniqueIdentifier>{b642feb9-c8b0-4177-a7db-6df73fc251c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Actors">
+      <UniqueIdentifier>{6698294f-9581-4ae0-af39-c70e1354da63}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameStateGameOver.cpp">
+      <Filter>Sources\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateMainMenu.cpp">
+      <Filter>Sources\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStatePauseMenu.cpp">
+      <Filter>Sources\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStatePlaying.cpp">
+      <Filter>Sources\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateRecords.cpp">
+      <Filter>Sources\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateBase.cpp">
+      <Filter>Sources\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMain.cpp">
+      <Filter>Sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Sources\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Sources\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelObject.cpp">
+      <Filter>Sources\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Sources\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Sources\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameStateGameOver.h">
+      <Filter>Sources\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateMainMenu.h">
+      <Filter>Sources\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStatePauseMenu.h">
+      <Filter>Sources\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStatePlaying.h">
+      <Filter>Sources\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateRecords.h">
+      <Filter>Sources\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateBase.h">
+      <Filter>Sources\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSettings.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Sources\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Sources\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Sources\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelObject.h">
+      <Filter>Sources\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Sources\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Sources\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h" />
+  </ItemGroup>
+</Project>
