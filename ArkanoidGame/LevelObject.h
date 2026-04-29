@@ -3,6 +3,7 @@
 #include "SFML/Audio.hpp"
 #include "GameSettings.h"
 #include "Sprite.h"
+#include "AssetController.h"
 
 namespace Arcanoid
 {
@@ -10,11 +11,10 @@ namespace Arcanoid
 	{
 	protected:
 		sf::Sprite ObjectSprite;
-		sf::Texture ObjectTexture;
 		sf::Vector2f ObjectPosition;
 
 	public:
-		LevelObject(std::string TextureName, sf::Vector2f Position);
+		LevelObject(TextureType type, sf::Vector2f Position);
 		virtual ~LevelObject() {}
 
 		virtual void Update();

@@ -14,26 +14,21 @@ namespace Arcanoid
 		titleText.setFillColor(sf::Color::Red);
 
 		MenuItem resumeItem;
-		resumeItem.text.setString("Return to game");
-		resumeItem.text.setFont(font);
-		resumeItem.text.setCharacterSize(24);
-		resumeItem.onPressCallback = [](MenuItem&) {
+		resumeItem.SetTextParameters(true, "Return to game", font, 24);
+		resumeItem.SetCallbackFunction([](MenuItem&) {
 			Application::Instance().GetGame().PopState();
-			};
+			});
 
 		MenuItem exitItem;
-		exitItem.text.setString("Exit to main menu");
-		exitItem.text.setFont(font);
-		exitItem.text.setCharacterSize(24);
-		exitItem.onPressCallback = [](MenuItem&) {
+		exitItem.SetTextParameters(true, "Exit to main menu", font, 24);
+		exitItem.SetCallbackFunction([](MenuItem&) {
 			Application::Instance().GetGame().SwitchStateTo(GameStateType::MainMenu);
-			};
+			});
 
 		MenuItem pauseMenu;
-		pauseMenu.childrenOrientation = Orientation::Vertical;
-		pauseMenu.childrenAlignment = Alignment::Middle;
-		pauseMenu.childrens.push_back(resumeItem);
-		pauseMenu.childrens.push_back(exitItem);
+		pauseMenu.SetPositionParameters(Orientation::Vertical, Alignment::Middle, 0.f);
+		pauseMenu.AttachChild(resumeItem);
+		pauseMenu.AttachChild(exitItem);
 
 		menu.Init(pauseMenu);
 	}
@@ -56,7 +51,7 @@ namespace Arcanoid
 				menu.PressOnSelectedItem();
 			}
 
-			Orientation orientation = menu.GetCurrentContext().childrenOrientation;
+			Orientation orientation = menu.GetCurrentContext().GetChildrenOrientation();
 			if (event.key.code == sf::Keyboard::Up)
 			{
 				menu.SwitchToPreviousMenuItem();

@@ -2,10 +2,9 @@
 
 namespace Arcanoid
 {
-	LevelObject::LevelObject(std::string TextureName, sf::Vector2f Position)
+	LevelObject::LevelObject(TextureType type, sf::Vector2f Position)
 	{
-		ObjectTexture.loadFromFile(TEXTURES_PATH + TextureName + ".png");
-		ObjectSprite.setTexture(ObjectTexture);
+		ObjectSprite.setTexture(AssetController::Instance().GetTexture(type));
 
 		SetSize(BASE_SPRITE_SCALE);
 

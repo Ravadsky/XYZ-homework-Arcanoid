@@ -1,25 +1,17 @@
 #pragma once
 #include "GameStateBase.h"
 #include <vector>
+#include <memory>
 
 namespace Arcanoid
 {
-	class LevelObject;
 	class Ball;
 	class Block;
+	class Platform;
 
 	class GameStatePlayingData : public GameStateBase
 	{
 	private:
-		// Resources
-		sf::Texture blockTexture;
-		sf::Texture platformTexture;
-		sf::Texture ballTexture;
-
-		sf::SoundBuffer destroyBlockSoundBuffer;
-		sf::SoundBuffer deathSoundBuffer;
-		sf::SoundBuffer ricochetSoundBuffer;
-
 		// UI data
 		sf::Text scoreText;
 		sf::Text inputHintText;
@@ -30,9 +22,9 @@ namespace Arcanoid
 		sf::Sound deathSound;
 		sf::Sound ricochetSound;
 
-		LevelObject* Platform;
-		Ball* ball;
-		std::vector<Block*> BlocksOnLevel;
+		std::unique_ptr<Platform> platform;
+		std::unique_ptr<Ball> ball;
+		std::vector<std::unique_ptr<Block>> BlocksOnLevel;
 
 		bool GameOver = false;
 		int CompletedBlockCount = 0;

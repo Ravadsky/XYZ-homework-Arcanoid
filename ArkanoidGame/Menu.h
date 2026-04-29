@@ -7,8 +7,9 @@
 
 namespace Arcanoid
 {
-	struct MenuItem
+	class MenuItem
 	{
+	private:
 		sf::Text text;
 		sf::Text hintText; // Visible when child item is selected
 		Orientation childrenOrientation = Orientation::Vertical;
@@ -24,6 +25,29 @@ namespace Arcanoid
 		std::function<void(MenuItem& item)> onPressCallback;
 
 		MenuItem* parent = nullptr;
+
+	public:
+		bool HasChildrens();
+		int GetChildrenCount();
+		
+		float GetChildrenSpacing();
+		Alignment GetChildrenAlignment();
+		Orientation GetChildrenOrientation();
+		void Draw(std::vector<sf::Text*>& texts);
+		std::vector<MenuItem>& GetChildrens();
+		MenuItem& GetFrontChild();
+		MenuItem* GetParent();
+		void SetParent(MenuItem* ParentPtr);
+		void AttachChild(MenuItem& child);
+		void PressCallback(MenuItem& item);
+		bool HasCallbackFunction();
+		void ColorTo(bool isSelected = true);
+		bool IsEnabled();
+		sf::Text* GetHintText();
+
+		void SetCallbackFunction(std::function<void(MenuItem& item)> Function);
+		void SetTextParameters(bool ForBaseText, std::string String, sf::Font& font, int CharactersSize, sf::Color color = sf::Color::White);
+		void SetPositionParameters(Orientation orientation, Alignment alignment, float spacing);
 	};
 
 	class Menu
@@ -51,4 +75,5 @@ namespace Arcanoid
 		MenuItem rootItem;
 		MenuItem* selectedItem = nullptr;
 	};
+
 }

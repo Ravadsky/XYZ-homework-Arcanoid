@@ -8,16 +8,16 @@ namespace Arcanoid
 		rootItem = item;
 
 		InitMenuItem(rootItem);
-		if (!rootItem.childrens.empty()) {
-			SelectMenuItem(rootItem.childrens.front());
+		if (rootItem.HasChildrens()) {
+			SelectMenuItem(rootItem.GetFrontChild());
 		}
 	}
-	
+
 	void Menu::InitMenuItem(MenuItem& item)
 	{
-		for (auto& child : item.childrens)
+		for (auto& child : item.GetChildrens())
 		{
-			child.parent = &item;
+			child.SetParent(&item);
 			InitMenuItem(child);
 		}
 	}
@@ -27,37 +27,33 @@ namespace Arcanoid
 		MenuItem& expandedItem = GetCurrentContext();
 
 		std::vector<sf::Text*> texts;
-		texts.reserve(expandedItem.childrens.size());
-		for (auto& child : expandedItem.childrens) {
-			if (child.isEnabled) {
-				texts.push_back(&child.text);
-			}
-		}
+		texts.reserve(expandedItem.GetChildrenCount());
+		expandedItem.Draw(texts);
 
 		DrawTextList(
 			window,
 			texts,
-			expandedItem.childrenSpacing,
-			expandedItem.childrenOrientation,
-			expandedItem.childrenAlignment,
+			expandedItem.GetChildrenSpacing(),
+			expandedItem.GetChildrenOrientation(),
+			expandedItem.GetChildrenAlignment(),
 			position,
 			origin);
 	}
-	
+
 	void Menu::PressOnSelectedItem()
 	{
 		if (!selectedItem) {
 			return;
 		}
 
-		if (selectedItem->onPressCallback) {
-			selectedItem->onPressCallback(*selectedItem);
+		if (selectedItem->HasCallbackFunction()) {
+			selectedItem->PressCallback(*selectedItem);
 			return;
 		}
 
 		// default behaviour
-		if (!selectedItem->childrens.empty()) {
-			SelectMenuItem(selectedItem->childrens.front());
+		if (selectedItem->HasChildrens()) {
+			SelectMenuItem(selectedItem->GetFrontChild());
 		}
 	}
 
@@ -74,14 +70,14 @@ namespace Arcanoid
 		if (!selectedItem) {
 			return;
 		}
-		
-		MenuItem* parent = selectedItem->parent;
+
+		MenuItem* parent = selectedItem->GetParent();
 		assert(parent); // There always should be parent
 
-		auto it = std::find_if(parent->childrens.begin(), parent->childrens.end(), [this](const auto& item) {
+		auto it = std::find_if(parent->GetChildrens().begin(), parent->GetChildrens().end(), [this](const auto& item) {
 			return selectedItem == &item;
-		});
-		if (it != parent->childrens.begin()) {
+			});
+		if (it != parent->GetChildrens().begin()) {
 			SelectMenuItem(*std::prev(it));
 		}
 	}
@@ -91,15 +87,15 @@ namespace Arcanoid
 		if (!selectedItem) {
 			return;
 		}
-		
-		MenuItem* parent = selectedItem->parent;
+
+		MenuItem* parent = selectedItem->GetParent();
 		assert(parent); // There always should be parent
-		
-		auto it = std::find_if(parent->childrens.begin(), parent->childrens.end(), [this](const auto& item) {
+
+		auto it = std::find_if(parent->GetChildrens().begin(), parent->GetChildrens().end(), [this](const auto& item) {
 			return selectedItem == &item;
 			});
 		it = std::next(it);
-		if (it != parent->childrens.end()) {
+		if (it != parent->GetChildrens().end()) {
 			SelectMenuItem(*it);
 		}
 	}
@@ -113,7 +109,7 @@ namespace Arcanoid
 			return;
 		}
 
-		if (!item.isEnabled)
+		if (!item.IsEnabled())
 		{
 			// Don't allow to select disabled item
 			return;
@@ -121,19 +117,110 @@ namespace Arcanoid
 
 		if (selectedItem)
 		{
-			selectedItem->text.setFillColor(selectedItem->deselectedColor);
+			selectedItem->ColorTo(false);
 		}
 
 		selectedItem = &item;
 
 		if (selectedItem)
 		{
-			selectedItem->text.setFillColor(selectedItem->selectedColor);
+			selectedItem->ColorTo(true);
 		}
 	}
 
 	MenuItem& Menu::GetCurrentContext()
 	{
-		return selectedItem ? *(selectedItem->parent) : rootItem;
+		return selectedItem ? *(selectedItem->GetParent()) : rootItem;
+	}
+	bool MenuItem::HasChildrens()
+	{	
+		return !childrens.empty();
+	}
+	int MenuItem::GetChildrenCount()
+	{
+		return (int)childrens.size();
+	}
+	float MenuItem::GetChildrenSpacing()
+	{
+		return childrenSpacing;
+	}
+	Alignment MenuItem::GetChildrenAlignment()
+	{
+		return childrenAlignment;
+	}
+	Orientation MenuItem::GetChildrenOrientation()
+	{
+		return childrenOrientation;
+	}
+	void MenuItem::Draw(std::vector<sf::Text*>& texts)
+	{
+		for (auto& child : childrens) {
+			if (child.isEnabled) {
+				texts.push_back(&child.text);
+			}
+		}
+	}
+	std::vector<MenuItem>& MenuItem::GetChildrens()
+	{
+		return childrens;
+	}
+	MenuItem& MenuItem::GetFrontChild()
+	{
+		return childrens.front();
+	}
+	MenuItem* MenuItem::GetParent()
+	{
+		return parent;
+	}
+	void MenuItem::SetParent(MenuItem* ParentPtr)
+	{
+		parent = ParentPtr;
+	}
+	void MenuItem::AttachChild(MenuItem& child)
+	{
+		childrens.push_back(child);
+	}
+	void MenuItem::PressCallback(MenuItem& item)
+	{
+		onPressCallback(item);
+	}
+	bool MenuItem::HasCallbackFunction()
+	{
+		if (onPressCallback)
+			return true;
+		else
+			return false;
+	}
+	void MenuItem::ColorTo(bool isSelected)
+	{
+		sf::Color& color = isSelected ? selectedColor : deselectedColor;
+		text.setFillColor(color);
+	}
+	bool MenuItem::IsEnabled()
+	{
+		return isEnabled;
+	}
+	sf::Text* MenuItem::GetHintText()
+	{
+		return &hintText;
+	}
+	void MenuItem::SetCallbackFunction(std::function<void(MenuItem& item)> Function)
+	{
+		onPressCallback = Function;
+	}
+	void MenuItem::SetTextParameters(bool ForBaseText, std::string String, sf::Font& font, int CharactersSize, sf::Color color)
+	{
+		sf::Text MenuItem::* ChangedText = ForBaseText ? &MenuItem::text : &MenuItem::hintText;
+			
+		(this->*ChangedText).setString(String);
+		(this->*ChangedText).setFont(font);
+		(this->*ChangedText).setCharacterSize(CharactersSize);
+		(this->*ChangedText).setFillColor(color);
+	}
+	void MenuItem::SetPositionParameters(Orientation orientation, Alignment alignment, float spacing)
+	{
+		childrenOrientation = orientation;
+		childrenAlignment = alignment;
+		childrenSpacing = spacing;
 	}
 }

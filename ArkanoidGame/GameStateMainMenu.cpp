@@ -8,75 +8,49 @@ namespace Arcanoid
 	GameStateMainMenuData::GameStateMainMenuData() : GameStateBase()
 	{
 		MenuItem startGame;
-		startGame.text.setString("Start Game");
-		startGame.text.setFont(font);
-		startGame.text.setCharacterSize(24);
-		startGame.onPressCallback = [](MenuItem&) {
+		startGame.SetTextParameters(true, "Start Game", font, 24);
+		startGame.SetCallbackFunction([](MenuItem&) {
 			Application::Instance().GetGame().SwitchStateTo(GameStateType::Playing);
-			};
+			});
 
 		MenuItem options;
-		options.text.setString("Options");
-		options.text.setFont(font);
-		options.text.setCharacterSize(24);
-		options.hintText.setString("Options");
-		options.hintText.setFont(font);
-		options.hintText.setCharacterSize(48);
-		options.hintText.setFillColor(sf::Color::Red);
-		options.childrenOrientation = Orientation::Vertical;
-		options.childrenAlignment = Alignment::Middle;
-		options.childrenSpacing = 10.f;
+		options.SetTextParameters(true, "Options", font, 24);
+		options.SetTextParameters(false, "Options", font, 48, sf::Color::Red);
+		options.SetPositionParameters(Orientation::Vertical, Alignment::Middle, 10.f);
 
 		MenuItem recordsItem;
-		recordsItem.text.setString("Records");
-		recordsItem.text.setFont(font);
-		recordsItem.text.setCharacterSize(24);
-		recordsItem.onPressCallback = [](MenuItem&) {
+		recordsItem.SetTextParameters(true, "Records", font, 24);
+		recordsItem.SetCallbackFunction([](MenuItem&) {
 			Application::Instance().GetGame().PushState(GameStateType::Records, true);
-			};
+			});
 
 		MenuItem yesItem;
-		yesItem.text.setString("Yes");
-		yesItem.text.setFont(font);
-		yesItem.text.setCharacterSize(24);
-		yesItem.onPressCallback = [](MenuItem&) {
+		yesItem.SetTextParameters(true, "Yes", font, 24);
+		yesItem.SetCallbackFunction([](MenuItem&) {
 			Application::Instance().GetGame().SwitchStateTo(GameStateType::None);
-			};
+			});
 
 		MenuItem noItem;
-		noItem.text.setString("No");
-		noItem.text.setFont(font);
-		noItem.text.setCharacterSize(24);
-		noItem.onPressCallback = [this](MenuItem&) {this->menu.GoBack();
-			};
+		noItem.SetTextParameters(true, "No", font, 24);
+		noItem.SetCallbackFunction([this](MenuItem&) {this->menu.GoBack();
+			});
 
 		MenuItem exitGameItem;
-		exitGameItem.text.setString("Exit Game");
-		exitGameItem.text.setFont(font);
-		exitGameItem.text.setCharacterSize(24);
-		exitGameItem.hintText.setString("Are you sure?");
-		exitGameItem.hintText.setFont(font);
-		exitGameItem.hintText.setCharacterSize(48);
-		exitGameItem.hintText.setFillColor(sf::Color::Red);
-		exitGameItem.childrenOrientation = Orientation::Horizontal;
-		exitGameItem.childrenAlignment = Alignment::Middle;
-		exitGameItem.childrenSpacing = 10.f;
-		exitGameItem.childrens.push_back(yesItem);
-		exitGameItem.childrens.push_back(noItem);
+		exitGameItem.SetTextParameters(true, "Exit Game", font, 24);
+		exitGameItem.SetTextParameters(false, "Are you sure?", font, 48, sf::Color::Red);
+		exitGameItem.SetPositionParameters(Orientation::Horizontal, Alignment::Middle, 10.f);
+
+		exitGameItem.AttachChild(yesItem);
+		exitGameItem.AttachChild(noItem);
 
 		MenuItem mainMenu;
-		mainMenu.hintText.setString("Arcanoid");
-		mainMenu.hintText.setFont(font);
-		mainMenu.hintText.setCharacterSize(48);
-		mainMenu.hintText.setFillColor(sf::Color::Red);
-		mainMenu.childrenOrientation = Orientation::Vertical;
-		mainMenu.childrenAlignment = Alignment::Middle;
-		mainMenu.childrenSpacing = 10.f;
-		mainMenu.childrens.push_back(startGame);
-		mainMenu.childrens.push_back(options);
-		mainMenu.childrens.push_back(recordsItem);
-		mainMenu.childrens.push_back(exitGameItem);
+		mainMenu.SetTextParameters(false, "Arcanoid", font, 48, sf::Color::Red);
+		mainMenu.SetPositionParameters(Orientation::Vertical, Alignment::Middle, 10.f);
 
+		mainMenu.AttachChild(startGame);
+		mainMenu.AttachChild(options);
+		mainMenu.AttachChild(recordsItem);
+		mainMenu.AttachChild(exitGameItem);
 
 		menu.Init(mainMenu);
 	}
@@ -98,7 +72,7 @@ namespace Arcanoid
 				menu.PressOnSelectedItem();
 			}
 
-			Orientation orientation = menu.GetCurrentContext().childrenOrientation;
+			Orientation orientation = menu.GetCurrentContext().GetChildrenOrientation();
 			if (orientation == Orientation::Vertical && event.key.code == sf::Keyboard::Up ||
 				orientation == Orientation::Horizontal && event.key.code == sf::Keyboard::Left)
 			{
@@ -120,7 +94,7 @@ namespace Arcanoid
 	{
 		sf::Vector2f viewSize = (sf::Vector2f)window.getView().getSize();
 
-		sf::Text* hintText = &menu.GetCurrentContext().hintText;
+		sf::Text* hintText = menu.GetCurrentContext().GetHintText();
 		hintText->setOrigin(GetTextOrigin(*hintText, { 0.5f, 0.f }));
 		hintText->setPosition(viewSize.x / 2.f, 150.f);
 		window.draw(*hintText);

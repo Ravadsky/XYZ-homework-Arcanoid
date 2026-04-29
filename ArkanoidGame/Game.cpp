@@ -50,7 +50,7 @@ namespace Arcanoid
 
 	bool Game::Update(float timeDelta)
 	{
-		if (gameStateContext.stateChangeType == GameStateChangeType::Switch)
+		if (gameStateContext.GetStateChangeType() == GameStateChangeType::Switch)
 		{
 			// Shutdown all game states
 			while (stateStack.size() > 0)
@@ -59,7 +59,7 @@ namespace Arcanoid
 				stateStack.pop_back();
 			}
 		}
-		else if (gameStateContext.stateChangeType == GameStateChangeType::Pop)
+		else if (gameStateContext.GetStateChangeType() == GameStateChangeType::Pop)
 		{
 			// Shutdown only current game state
 			if (stateStack.size() > 0)
@@ -70,9 +70,9 @@ namespace Arcanoid
 		}
 
 		// Initialize new game state if needed
-		if (gameStateContext.pendingGameStateType != GameStateType::None)
+		if (gameStateContext.GetPendingGameStateType() != GameStateType::None)
 		{
-			stateStack.emplace_back(gameStateContext.pendingGameStateType, gameStateContext.pendingGameStateIsExclusivelyVisible);
+			stateStack.emplace_back(gameStateContext.GetPendingGameStateType(), gameStateContext.IsPendingGameStateIsExclusivelyVisible());
 		}
 
 		gameStateContext.Reset();
@@ -251,5 +251,17 @@ namespace Arcanoid
 		stateChangeType = ChangeType;
 		pendingGameStateType = StateType;
 		pendingGameStateIsExclusivelyVisible = isExclusivelyVisible;
+	}
+	GameStateChangeType GameStateContext::GetStateChangeType()
+	{
+		return stateChangeType;
+	}
+	GameStateType GameStateContext::GetPendingGameStateType()
+	{
+		return pendingGameStateType;
+	}
+	bool GameStateContext::IsPendingGameStateIsExclusivelyVisible()
+	{
+		return pendingGameStateIsExclusivelyVisible;
 	}
 }

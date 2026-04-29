@@ -51,14 +51,18 @@ namespace Arcanoid
 		Switch
 	};
 
-	struct GameStateContext
+	class GameStateContext
 	{
+	private:
 		GameStateChangeType stateChangeType = GameStateChangeType::None;
 		GameStateType pendingGameStateType = GameStateType::None;
 		bool pendingGameStateIsExclusivelyVisible = false;
-
+	public:
 		void Reset();
 		void Set(GameStateChangeType ChangeType, GameStateType StateType, bool isExclusivelyVisible = false);
+		GameStateChangeType GetStateChangeType();
+		GameStateType GetPendingGameStateType();
+		bool IsPendingGameStateIsExclusivelyVisible();
 	};
 
 	class Game

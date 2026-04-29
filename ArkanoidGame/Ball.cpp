@@ -2,7 +2,7 @@
 
 namespace Arcanoid
 {
-	Arcanoid::Ball::Ball(sf::Vector2f Position) : LevelObject("Ball", Position)
+	Arcanoid::Ball::Ball(sf::Vector2f Position) : LevelObject(TextureType::Ball, Position)
 	{
 		Radius = (ObjectSprite.getLocalBounds().height / 2) * BASE_SPRITE_SCALE;
 	}
