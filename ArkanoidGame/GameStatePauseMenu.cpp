@@ -33,7 +33,7 @@ namespace Arcanoid
 		menu.Init(pauseMenu);
 	}
 
-	void GameStatePauseMenuData::Shutdown()
+	GameStatePauseMenuData::~GameStatePauseMenuData()
 	{
 	}
 

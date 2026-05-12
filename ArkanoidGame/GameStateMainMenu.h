@@ -12,7 +12,7 @@ namespace Arcanoid
 
 	public:
 		GameStateMainMenuData();
-		virtual void Shutdown() override;
+		~GameStateMainMenuData();
 		virtual void HandleWindowEvent(const sf::Event& event) override;
 		virtual void Update(float timeDelta) override;
 		virtual void Draw(sf::RenderWindow& window) override;

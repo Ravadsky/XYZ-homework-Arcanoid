@@ -31,7 +31,7 @@ namespace Arcanoid
 	{
 	private:
 		GameStateType type = GameStateType::None;
-		GameStateBase* data = nullptr;
+		std::unique_ptr< GameStateBase> data;
 		bool isExclusivelyVisible = false;
 
 	public:

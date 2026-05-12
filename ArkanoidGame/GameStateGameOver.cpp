@@ -71,7 +71,7 @@ namespace Arcanoid
 		hintText.setString("Press Space to restart\nEsc to exit to main menu");
 	}
 
-	void GameStateGameOverData::Shutdown()
+	GameStateGameOverData::~GameStateGameOverData()
 	{
 	}
 

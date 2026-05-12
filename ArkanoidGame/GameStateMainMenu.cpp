@@ -55,7 +55,7 @@ namespace Arcanoid
 		menu.Init(mainMenu);
 	}
 
-	void GameStateMainMenuData::Shutdown()
+	GameStateMainMenuData::~GameStateMainMenuData()
 	{
 	}
 

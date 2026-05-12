@@ -51,7 +51,7 @@ namespace Arcanoid
 		}
 	}
 
-	void GameStatePlayingData::Shutdown()
+	GameStatePlayingData::~GameStatePlayingData()
 	{
 		platform.reset();
 		ball.reset();

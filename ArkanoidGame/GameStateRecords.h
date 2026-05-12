@@ -14,7 +14,8 @@ namespace Arcanoid
 
 	public:
 		GameStateRecordsData();
-		virtual void Shutdown() override;
+		~GameStateRecordsData();
+
 		virtual void HandleWindowEvent(const sf::Event& event) override;
 		virtual void Update(float timeDelta) override;
 		virtual void Draw(sf::RenderWindow& window) override;

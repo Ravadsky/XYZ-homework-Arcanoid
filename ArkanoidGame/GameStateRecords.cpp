@@ -43,7 +43,7 @@ namespace Arcanoid
 		hintText.setCharacterSize(24);
 	}
 
-	void GameStateRecordsData::Shutdown()
+	GameStateRecordsData::~GameStateRecordsData()
 	{
 	}
 

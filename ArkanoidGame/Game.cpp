@@ -171,27 +171,27 @@ namespace Arcanoid
 		{
 		case GameStateType::MainMenu:
 		{
-			data = new GameStateMainMenuData();
+			data = std::make_unique<GameStateMainMenuData>();
 			break;
 		}
 		case GameStateType::Playing:
 		{
-			data = new GameStatePlayingData();
+			data = std::make_unique<GameStatePlayingData>();
 			break;
 		}
 		case GameStateType::GameOver:
 		{
-			data = new GameStateGameOverData();
+			data = std::make_unique<GameStateGameOverData>();
 			break;
 		}
 		case GameStateType::ExitDialog:
 		{
-			data = new GameStatePauseMenuData();
+			data = std::make_unique<GameStatePauseMenuData>();
 			break;
 		}
 		case GameStateType::Records:
 		{
-			data = new GameStateRecordsData();
+			data = std::make_unique<GameStateRecordsData>();
 			break;
 		}
 		default:
@@ -202,12 +202,7 @@ namespace Arcanoid
 
 	void GameState::Shutdown()
 	{
-		if (data)
-		{
-			data->Shutdown();
-		}
-		delete data;
-		data = nullptr;
+		data.reset();
 	}
 
 	void GameState::HandleWindowEvent(sf::Event& event)
