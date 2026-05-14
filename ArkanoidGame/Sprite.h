@@ -2,11 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include "GameSettings.h"
 #include <list>
+#include "LevelObject.h"
 
 namespace Arcanoid
 {
-
-	class LevelObject;
 	class Ball;
 
 	void InitSprite(sf::Sprite& sprite, float desiredWidth, float desiredHeight, const sf::Texture& texture);
@@ -42,5 +41,6 @@ namespace Arcanoid
 
 	bool CheckSpriteIntersectionWithBorders(sf::FloatRect SpriteRect);
 	bool CheckCollisionWithBall(LevelObject& object, Ball& ball);
+	EAxis GetCollisionAxis(LevelObject& object, Ball& ball);
 	sf::Color GetRandomColor();
 }

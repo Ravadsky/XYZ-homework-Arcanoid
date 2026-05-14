@@ -23,6 +23,7 @@ namespace Arcanoid
 		MainMenu,
 		Playing,
 		GameOver,
+		GameWinOver,
 		ExitDialog,
 		Records,
 	};

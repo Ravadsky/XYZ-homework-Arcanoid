@@ -2,8 +2,13 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include "GameSettings.h"
-#include "Sprite.h"
 #include "AssetController.h"
+
+enum class EAxis
+{
+	XAxis,
+	YAxis,
+};
 
 namespace Arcanoid
 {
@@ -18,6 +23,7 @@ namespace Arcanoid
 		virtual ~LevelObject() {}
 
 		virtual void Update();
+		virtual void OnCollision(LevelObject& otherObject);
 
 		void SetSize(float size);
 		void Draw(sf::RenderWindow& window);

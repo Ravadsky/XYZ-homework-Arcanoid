@@ -12,12 +12,14 @@ namespace Arcanoid
 
     public:
         Ball(sf::Vector2f Position);
-        virtual void Update() override;
 
-        void SwapXDirection();
-        void SwapYDirection();
-        void SetYDirection();
+        virtual void Update() override;
+        virtual void OnCollision(LevelObject& otherObject) override;
+
+        void SwapDirection(EAxis axis);
+        void SetDirection(EAxis axis);
 
         float GetRadius();
+
     };
 }

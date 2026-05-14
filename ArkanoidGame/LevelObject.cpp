@@ -1,4 +1,5 @@
 #include "LevelObject.h"
+#include "Sprite.h"
 
 namespace Arcanoid
 {
@@ -14,6 +15,11 @@ namespace Arcanoid
 
 	void LevelObject::Update()
 	{
+	}
+
+	void LevelObject::OnCollision(LevelObject& otherObject)
+	{
+
 	}
 
 	void LevelObject::SetSize(float size)
@@ -39,6 +45,7 @@ namespace Arcanoid
 		}
 
 	}
+
 	sf::FloatRect LevelObject::GetBounds()
 	{
 		return ObjectSprite.getGlobalBounds();

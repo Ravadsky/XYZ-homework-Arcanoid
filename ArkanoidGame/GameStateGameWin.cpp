@@ -1,4 +1,4 @@
-#include "GameStateGameOver.h"
+#include "GameStateGameWin.h"
 
 #include "Application.h"
 #include "Game.h"
@@ -7,7 +7,7 @@
 
 namespace Arcanoid
 {
-	GameStateGameOverData::GameStateGameOverData() : GameStateBase()
+	GameStateGameWin::GameStateGameWin() : GameStateBase()
 	{
 		timeSinceGameOver = 0.f;
 
@@ -19,7 +19,7 @@ namespace Arcanoid
 		gameOverText.setCharacterSize(48);
 		gameOverText.setStyle(sf::Text::Bold);
 		gameOverText.setFillColor(sf::Color::Red);
-		gameOverText.setString("GAME OVER");
+		gameOverText.setString("YOU WIN!!! my congratulations");
 
 		recordsTableTexts.reserve(MAX_RECORDS_TABLE_SIZE);
 
@@ -58,11 +58,11 @@ namespace Arcanoid
 		hintText.setString("Press Space to restart\nEsc to exit to main menu");
 	}
 
-	GameStateGameOverData::~GameStateGameOverData()
+	GameStateGameWin::~GameStateGameWin()
 	{
 	}
 
-	void GameStateGameOverData::HandleWindowEvent(const sf::Event& event)
+	void GameStateGameWin::HandleWindowEvent(const sf::Event& event)
 	{
 		if (event.type == sf::Event::KeyPressed)
 		{
@@ -77,7 +77,7 @@ namespace Arcanoid
 		}
 	}
 
-	void GameStateGameOverData::Update(float timeDelta)
+	void GameStateGameWin::Update(float timeDelta)
 	{
 		timeSinceGameOver += timeDelta;
 
@@ -85,7 +85,7 @@ namespace Arcanoid
 		gameOverText.setFillColor(gameOverTextColor);
 	}
 
-	void GameStateGameOverData::Draw(sf::RenderWindow& window)
+	void GameStateGameWin::Draw(sf::RenderWindow& window)
 	{
 		sf::Vector2f viewSize = window.getView().getSize();
 

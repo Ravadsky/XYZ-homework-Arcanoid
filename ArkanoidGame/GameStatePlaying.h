@@ -26,9 +26,6 @@ namespace Arcanoid
 		std::unique_ptr<Ball> ball;
 		std::vector<std::unique_ptr<Block>> BlocksOnLevel;
 
-		bool GameOver = false;
-		int CompletedBlockCount = 0;
-
 	public:
 		GameStatePlayingData();
 		~GameStatePlayingData();
@@ -36,6 +33,8 @@ namespace Arcanoid
 		virtual void HandleWindowEvent(const sf::Event& event) override;
 		virtual void Update(float timeDelta) override;
 		virtual void Draw(sf::RenderWindow& window) override;
+
+		void GetPlayerInput();
 
 	};
 }

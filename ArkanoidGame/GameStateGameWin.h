@@ -1,0 +1,28 @@
+#pragma once
+#include "GameStateBase.h"
+
+namespace Arcanoid
+{
+	class GameStateGameWin :
+		public GameStateBase
+	{
+	private:
+		float timeSinceGameOver = 0.f;
+
+		// UI data
+		sf::RectangleShape background;
+		sf::Text gameOverText;
+		sf::Text hintText;
+		std::vector<sf::Text> recordsTableTexts;
+
+	public:
+		GameStateGameWin();
+		~GameStateGameWin();
+
+		virtual void HandleWindowEvent(const sf::Event& event) override;
+		virtual void Update(float timeDelta) override;
+		virtual void Draw(sf::RenderWindow& window) override;
+	};
+}
+
+

@@ -70,6 +70,9 @@
     <ClCompile Include="AssetController.cpp">
       <Filter>Sources\Core</Filter>
     </ClCompile>
+    <ClCompile Include="GameStateGameWin.cpp">
+      <Filter>Sources\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameStateGameOver.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="AssetController.h">
       <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateGameWin.h">
+      <Filter>Sources\GameStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

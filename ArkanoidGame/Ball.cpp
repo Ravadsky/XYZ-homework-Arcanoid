@@ -1,4 +1,5 @@
 #include "Ball.h"
+#include "Sprite.h"
 
 namespace Arcanoid
 {
@@ -15,27 +16,48 @@ namespace Arcanoid
 
 		if (SpriteRectangle.left <= 0 or SpriteRectangle.left + SpriteRectangle.width >= SCREEN_WIDTH)
 		{
-			SwapXDirection();
+			SwapDirection(EAxis::XAxis);
 		}
 		if (SpriteRectangle.top <= 0)
 		{
-			SwapYDirection();
+			SwapDirection(EAxis::YAxis);
 		}
 
 	}
-	void Ball::SwapXDirection()
-	{
-		Direction = sf::Vector2f(-Direction.x, Direction.y);
-	}
-	void Ball::SwapYDirection()
-	{
-		Direction = sf::Vector2f(Direction.x, -Direction.y);
 
-	}
-	void Ball::SetYDirection()
+	void Ball::OnCollision(LevelObject& otherObject)
 	{
-		Direction = sf::Vector2f(Direction.x, -INITIAL_DIRECTION.y);
+		SwapDirection(GetCollisionAxis(otherObject, *this));
 	}
+
+	void Ball::SwapDirection(EAxis axis)
+	{
+		switch (axis)
+		{
+		case EAxis::XAxis:
+			Direction = sf::Vector2f(-Direction.x, Direction.y);
+			break;
+		case EAxis::YAxis:
+			Direction = sf::Vector2f(Direction.x, -Direction.y);
+			break;
+		}
+	}
+
+	void Ball::SetDirection(EAxis axis)
+	{
+		switch (axis)
+		{
+		case EAxis::XAxis:
+			Direction = sf::Vector2f(INITIAL_DIRECTION.x, Direction.y);
+			break;
+		case EAxis::YAxis:
+			Direction = sf::Vector2f(Direction.x, -INITIAL_DIRECTION.y);
+			break;
+		}
+
+		
+	}
+
 	float Ball::GetRadius()
 	{
 		return Radius;

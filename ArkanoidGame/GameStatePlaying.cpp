@@ -26,6 +26,7 @@ namespace Arcanoid
 		scoreText.setFont(font);
 		scoreText.setCharacterSize(24);
 		scoreText.setFillColor(sf::Color::Yellow);
+		scoreText.setString("Blocks: 0");
 
 		inputHintText.setFont(font);
 		inputHintText.setCharacterSize(24);
@@ -33,7 +34,7 @@ namespace Arcanoid
 		inputHintText.setString("Use A - move left, D - move right, ESC - pause");
 		inputHintText.setOrigin(GetTextOrigin(inputHintText, { 1.f, 0.f }));
 
-		platform = std::make_unique<Platform>(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEGHT - 200.f));
+		platform = std::make_unique<Platform>(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEGHT - 100.f));
 
 		ball = std::make_unique < Ball>(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEGHT / 2));
 
@@ -49,6 +50,7 @@ namespace Arcanoid
 				BlocksOnLevel.push_back(std::make_unique<Block>(BlockPos));
 			}
 		}
+		Block::InitCompletedBlockCount();
 	}
 
 	GameStatePlayingData::~GameStatePlayingData()
@@ -67,34 +69,36 @@ namespace Arcanoid
 				Application::Instance().GetGame().PushState(GameStateType::ExitDialog, false);
 			}
 		}
+
+
 	}
 
 	void GameStatePlayingData::Update(float timeDelta)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) or sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
-			platform->Move(sf::Vector2f(-20.f, 0.f));
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) or sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		{
-			platform->Move(sf::Vector2f(20.f, 0.f));
-		}
+		GetPlayerInput();
 
 		ball->Update();
 
+		// ≈сли платформа находитс€ ниже шарика
 		if (ball->GetPosition().y < platform->GetPosition().y)
 		{
 			if (CheckCollisionWithBall(*platform, *ball))
-				ball->SetYDirection();
+				ball->SetDirection(EAxis::YAxis);
 		}
 
+		// проверка коллизии на каждый блок
 		for (auto iterator = BlocksOnLevel.begin(); iterator != BlocksOnLevel.end(); )
 		{
 			Block* CurrentBlock = iterator->get();
 			if (CheckCollisionWithBall(*CurrentBlock, *ball))
 			{
-				CompletedBlockCount++;
+				ball->OnCollision(*CurrentBlock);
+				CurrentBlock->OnCollision(*ball);
 				iterator = BlocksOnLevel.erase(iterator);
+
+				scoreText.setString("Blocks: " + std::to_string(Block::GetCompletedBlockCount()));
+				// ќптимизаци€, т.к в одном кадре шарик может соприкасатьс€ только с 1 блоком
+				break;
 			}
 			else
 			{
@@ -103,23 +107,25 @@ namespace Arcanoid
 		}
 
 		if (ball->GetBounds().top + ball->GetBounds().height >= SCREEN_HEGHT)
-			GameOver = true;
-
-		if (CompletedBlockCount == BLOCK_MAX_COUNT)
-			GameOver = true;
-
-		if (GameOver)
 		{
 			deathSound.play();
 
 			Game& game = Application::Instance().GetGame();
 
-			game.UpdateRecord(PLAYER_NAME, CompletedBlockCount);
+			game.UpdateRecord(PLAYER_NAME, Block::GetCompletedBlockCount());
 			game.PushState(GameStateType::GameOver, false);
 
 		}
 
-		scoreText.setString("Blocks: " + std::to_string(CompletedBlockCount));
+		if (Block::GetCompletedBlockCount() == BLOCK_MAX_COUNT)
+		{
+			deathSound.play();
+
+			Game& game = Application::Instance().GetGame();
+
+			game.UpdateRecord(PLAYER_NAME, Block::GetCompletedBlockCount());
+			game.PushState(GameStateType::GameWinOver, false);
+		}
 	}
 
 	void GameStatePlayingData::Draw(sf::RenderWindow& window)
@@ -142,6 +148,18 @@ namespace Arcanoid
 		sf::Vector2f viewSize = window.getView().getSize();
 		inputHintText.setPosition(viewSize.x - 10.f, 10.f);
 		window.draw(inputHintText);
+	}
+
+	void GameStatePlayingData::GetPlayerInput()
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) or sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			platform->Move(sf::Vector2f(-PLAYER_BASE_SPEED, 0.f));
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) or sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			platform->Move(sf::Vector2f(PLAYER_BASE_SPEED, 0.f));
+		}
 	}
 
 

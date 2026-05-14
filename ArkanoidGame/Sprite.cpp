@@ -82,6 +82,20 @@ namespace Arcanoid
 		return Distance <= BallRadius * BallRadius;
 	}
 
+	EAxis GetCollisionAxis(LevelObject& object, Ball& ball)
+	{
+		sf::FloatRect ObjectRect = object.GetBounds();
+		sf::Vector2f BallPos = ball.GetPosition();
+		float BallRadius = ball.GetRadius();
+
+		float ClosestX = std::max(ObjectRect.left, std::min(BallPos.x, ObjectRect.left + ObjectRect.width));
+		float ClosestY = std::max(ObjectRect.top, std::min(BallPos.y, ObjectRect.top + ObjectRect.height));
+			
+		sf::Vector2f Distance = BallPos - sf::Vector2f(ClosestX, ClosestY);
+
+		return (std::abs(Distance.x) > std::abs(Distance.y)) ? EAxis::XAxis : EAxis::YAxis;
+	}
+
 	sf::Color GetRandomColor()
 	{
 		int r, g, b;

@@ -21,7 +21,7 @@ namespace Arcanoid
 
 	// Player Parameters
 	const std::string PLAYER_NAME = "Player";
-	const float PLAYER_BASE_SPEED = 100.f;
+	const float PLAYER_BASE_SPEED = 20.f;
 
 	// Ball Parameters
 	const float BALL_BASE_SPEED = 20.f;
