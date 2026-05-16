@@ -7,8 +7,11 @@
 
 #include "LevelObject.h"
 #include "Ball.h"
-#include "block.h"
 #include "Platform.h"
+
+#include "DefaultBlock.h"
+#include "DurableBlock.h"
+#include "GlassBlock.h"
 
 namespace Arcanoid
 {
@@ -34,23 +37,7 @@ namespace Arcanoid
 		inputHintText.setString("Use A - move left, D - move right, ESC - pause");
 		inputHintText.setOrigin(GetTextOrigin(inputHintText, { 1.f, 0.f }));
 
-		platform = std::make_unique<Platform>(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEGHT - 100.f));
-
-		ball = std::make_unique < Ball>(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEGHT / 2));
-
-		sf::Vector2f BlockPos;
-		float XOffset = 160.f;
-		float YOffset = 80.f;
-		BlocksOnLevel.clear();
-		for (int x = 0; x < BLOCK_COLUMNS; x++)
-		{
-			for (int y = 0; y < BLOCK_ROWS; y++)
-			{
-				BlockPos = sf::Vector2f(XOffset / 2 + x * XOffset, YOffset / 2 + y * YOffset);
-				BlocksOnLevel.push_back(std::make_unique<Block>(BlockPos));
-			}
-		}
-		Block::InitCompletedBlockCount();
+		InitializeScene();
 	}
 
 	GameStatePlayingData::~GameStatePlayingData()
@@ -86,25 +73,9 @@ namespace Arcanoid
 				ball->SetDirection(EAxis::YAxis);
 		}
 
-		// проверка коллизии на каждый блок
-		for (auto iterator = BlocksOnLevel.begin(); iterator != BlocksOnLevel.end(); )
-		{
-			Block* CurrentBlock = iterator->get();
-			if (CheckCollisionWithBall(*CurrentBlock, *ball))
-			{
-				ball->OnCollision(*CurrentBlock);
-				CurrentBlock->OnCollision(*ball);
-				iterator = BlocksOnLevel.erase(iterator);
+		CheckCollisionsOnScene();
 
-				scoreText.setString("Blocks: " + std::to_string(Block::GetCompletedBlockCount()));
-				// Оптимизация, т.к в одном кадре шарик может соприкасаться только с 1 блоком
-				break;
-			}
-			else
-			{
-				iterator++;
-			}
-		}
+		RemoveMarkedObjects();
 
 		if (ball->GetBounds().top + ball->GetBounds().height >= SCREEN_HEGHT)
 		{
@@ -126,6 +97,7 @@ namespace Arcanoid
 			game.UpdateRecord(PLAYER_NAME, Block::GetCompletedBlockCount());
 			game.PushState(GameStateType::GameWinOver, false);
 		}
+
 	}
 
 	void GameStatePlayingData::Draw(sf::RenderWindow& window)
@@ -140,7 +112,7 @@ namespace Arcanoid
 		platform->Draw(window);
 		ball->Draw(window);
 
-
+		scoreText.setString("Blocks: " + std::to_string(Block::GetCompletedBlockCount()));
 		scoreText.setOrigin(GetTextOrigin(scoreText, { 0.f, 0.f }));
 		scoreText.setPosition(10.f, 10.f);
 		window.draw(scoreText);
@@ -159,6 +131,76 @@ namespace Arcanoid
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) or sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			platform->Move(sf::Vector2f(PLAYER_BASE_SPEED, 0.f));
+		}
+	}
+
+	void GameStatePlayingData::InitializeScene()
+	{
+		platform = std::make_unique<Platform>(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEGHT - 100.f));
+
+		ball = std::make_unique <Ball>(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEGHT / 2));
+
+		sf::Vector2f BlockPos;
+		float XOffset = 160.f;
+		float YOffset = 80.f;
+		BlocksOnLevel.clear();
+		for (int x = 0; x < BLOCK_COLUMNS; x++)
+		{
+			for (int y = 0; y < BLOCK_ROWS; y++)
+			{
+				BlockPos = sf::Vector2f(XOffset / 2 + x * XOffset, YOffset / 2 + y * YOffset);
+
+				SpawnBlock(BlockPos);
+			}
+		}
+
+		Block::InitCompletedBlockCount();
+	}
+
+	void GameStatePlayingData::SpawnBlock(sf::Vector2f BlockPosition)
+	{
+		// TODO - рандомный выбор блоков
+		int random_index = std::rand() % 4;
+		switch (random_index)
+		{
+		case 0:
+		case 1:
+			BlocksOnLevel.push_back(std::make_unique<DefaultBlock>(BlockPosition));
+			break;
+		case 2:
+			BlocksOnLevel.push_back(std::make_unique<DurableBlock>(BlockPosition));
+			break;
+		case 3:
+			BlocksOnLevel.push_back(std::make_unique<GlassBlock>(BlockPosition));
+			break;
+		}
+	}
+
+	void GameStatePlayingData::RemoveMarkedObjects()
+	{
+		for (auto iterator = BlocksOnLevel.begin(); iterator != BlocksOnLevel.end(); )
+		{
+			LevelObject* CurrentObject = iterator->get();
+			if (CurrentObject->isMarkedToRemove())
+				iterator = BlocksOnLevel.erase(iterator);
+			else
+				iterator++;
+		}
+	}
+
+	void GameStatePlayingData::CheckCollisionsOnScene()
+	{
+		for (auto iterator = BlocksOnLevel.begin(); iterator != BlocksOnLevel.end(); )
+		{
+			Block* CurrentBlock = iterator->get();
+			if (CheckCollisionWithBall(*CurrentBlock, *ball))
+			{
+				ball->OnCollision(CurrentBlock);
+				CurrentBlock->OnCollision(ball.get());
+
+				break;
+			}
+			iterator++;
 		}
 	}
 

@@ -14,7 +14,7 @@ namespace Arcanoid
         Ball(sf::Vector2f Position);
 
         virtual void Update() override;
-        virtual void OnCollision(LevelObject& otherObject) override;
+        virtual void OnCollision(LevelObject* otherObject) override;
 
         void SwapDirection(EAxis axis);
         void SetDirection(EAxis axis);

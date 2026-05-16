@@ -106,6 +106,16 @@ namespace Arcanoid
 		return sf::Color(r, g, b);
 	}
 
+	sf::Color GetRandomColorWithTransparency()
+	{
+		int r, g, b;
+		r = rand() % 246 + 10;
+		g = rand() % 246 + 10;
+		b = rand() % 246 + 10;
+
+		return sf::Color(r, g, b, 200);
+	}
+
 	sf::Vector2f GetVectorBetweenSprites(const sf::Sprite& spriteFrom, const sf::Sprite& spriteTo) {
 		const auto result = spriteTo.getPosition() - spriteFrom.getPosition();
 		return result;

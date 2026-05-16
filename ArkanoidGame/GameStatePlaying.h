@@ -36,5 +36,10 @@ namespace Arcanoid
 
 		void GetPlayerInput();
 
+		void InitializeScene();
+		void SpawnBlock(sf::Vector2f BlockPosition);
+		void RemoveMarkedObjects();
+		void CheckCollisionsOnScene();
+
 	};
 }

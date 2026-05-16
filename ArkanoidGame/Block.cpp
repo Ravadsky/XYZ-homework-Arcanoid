@@ -10,8 +10,12 @@ namespace Arcanoid
 		ObjectSprite.setColor(GetRandomColor());
 	}
 
-	void Block::OnCollision(LevelObject& otherObject)
+	Block::~Block()
 	{
 		CompletedBlockCount++;
+	}
+
+	void Block::OnCollision(LevelObject* otherObject)
+	{
 	}
 }

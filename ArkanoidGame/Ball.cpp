@@ -13,7 +13,6 @@ namespace Arcanoid
 		Move(Direction * INITIAL_SPEED);
 
 		sf::FloatRect SpriteRectangle = ObjectSprite.getGlobalBounds();
-
 		if (SpriteRectangle.left <= 0 or SpriteRectangle.left + SpriteRectangle.width >= SCREEN_WIDTH)
 		{
 			SwapDirection(EAxis::XAxis);
@@ -25,9 +24,12 @@ namespace Arcanoid
 
 	}
 
-	void Ball::OnCollision(LevelObject& otherObject)
+	void Ball::OnCollision(LevelObject* otherObject)
 	{
-		SwapDirection(GetCollisionAxis(otherObject, *this));
+		if (otherObject->GetCollisionPreset() == ECollisionPreset::Block)
+		{
+			SwapDirection(GetCollisionAxis(*otherObject, *this));
+		}
 	}
 
 	void Ball::SwapDirection(EAxis axis)
@@ -55,7 +57,7 @@ namespace Arcanoid
 			break;
 		}
 
-		
+
 	}
 
 	float Ball::GetRadius()

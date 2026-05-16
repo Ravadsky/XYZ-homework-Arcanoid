@@ -162,8 +162,11 @@
     <ClCompile Include="AssetController.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="DefaultBlock.cpp" />
+    <ClCompile Include="DurableBlock.cpp" />
     <ClCompile Include="GameStateBase.cpp" />
     <ClCompile Include="GameStateGameWin.cpp" />
+    <ClCompile Include="GlassBlock.cpp" />
     <ClCompile Include="LevelObject.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -182,8 +185,11 @@
     <ClInclude Include="AssetController.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="DefaultBlock.h" />
+    <ClInclude Include="DurableBlock.h" />
     <ClInclude Include="GameStateBase.h" />
     <ClInclude Include="GameStateGameWin.h" />
+    <ClInclude Include="GlassBlock.h" />
     <ClInclude Include="LevelObject.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Sprite.h" />

@@ -17,6 +17,9 @@
     <Filter Include="Sources\Actors">
       <UniqueIdentifier>{6698294f-9581-4ae0-af39-c70e1354da63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Actors\Blocks">
+      <UniqueIdentifier>{da4aaba1-8780-476d-8eda-951f94b0e2fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameStateGameOver.cpp">
@@ -61,9 +64,6 @@
     <ClCompile Include="Ball.cpp">
       <Filter>Sources\Actors</Filter>
     </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Sources\Actors</Filter>
-    </ClCompile>
     <ClCompile Include="Platform.cpp">
       <Filter>Sources\Actors</Filter>
     </ClCompile>
@@ -72,6 +72,18 @@
     </ClCompile>
     <ClCompile Include="GameStateGameWin.cpp">
       <Filter>Sources\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Sources\Actors\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultBlock.cpp">
+      <Filter>Sources\Actors\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="DurableBlock.cpp">
+      <Filter>Sources\Actors\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="GlassBlock.cpp">
+      <Filter>Sources\Actors\Blocks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,9 +132,6 @@
     <ClInclude Include="Ball.h">
       <Filter>Sources\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>Sources\Actors</Filter>
-    </ClInclude>
     <ClInclude Include="Platform.h">
       <Filter>Sources\Actors</Filter>
     </ClInclude>
@@ -131,6 +140,18 @@
     </ClInclude>
     <ClInclude Include="GameStateGameWin.h">
       <Filter>Sources\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Sources\Actors\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultBlock.h">
+      <Filter>Sources\Actors\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="DurableBlock.h">
+      <Filter>Sources\Actors\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="GlassBlock.h">
+      <Filter>Sources\Actors\Blocks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

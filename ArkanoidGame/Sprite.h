@@ -42,5 +42,7 @@ namespace Arcanoid
 	bool CheckSpriteIntersectionWithBorders(sf::FloatRect SpriteRect);
 	bool CheckCollisionWithBall(LevelObject& object, Ball& ball);
 	EAxis GetCollisionAxis(LevelObject& object, Ball& ball);
+
 	sf::Color GetRandomColor();
+	sf::Color GetRandomColorWithTransparency();
 }

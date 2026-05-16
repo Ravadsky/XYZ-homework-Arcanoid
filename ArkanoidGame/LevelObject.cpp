@@ -17,7 +17,7 @@ namespace Arcanoid
 	{
 	}
 
-	void LevelObject::OnCollision(LevelObject& otherObject)
+	void LevelObject::OnCollision(LevelObject* otherObject)
 	{
 
 	}
@@ -53,6 +53,20 @@ namespace Arcanoid
 	sf::Vector2f  LevelObject::GetPosition()
 	{
 		return ObjectPosition;
+	}
+
+	void LevelObject::MarkToRemove()
+	{
+		markedToRemove = true;
+	}
+	bool LevelObject::isMarkedToRemove()
+	{
+		return markedToRemove;
+	}
+	
+	ECollisionPreset LevelObject::GetCollisionPreset()
+	{
+		return CollisionPreset;
 	}
 }
 

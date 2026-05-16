@@ -12,8 +12,9 @@ namespace Arcanoid
 
 	public:
 		Block(sf::Vector2f Position);
+		virtual ~Block();
 
-		virtual void OnCollision(LevelObject& otherObject) override;
+		virtual void OnCollision(LevelObject* otherObject) override;
 
 		static inline int GetCompletedBlockCount()
 		{

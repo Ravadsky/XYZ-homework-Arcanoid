@@ -10,20 +10,31 @@ enum class EAxis
 	YAxis,
 };
 
+enum class ECollisionPreset
+{
+	Ignore,
+	Overlap,
+	Block
+};
+
 namespace Arcanoid
 {
 	class LevelObject
 	{
+	private:
+		bool markedToRemove = false;
+
 	protected:
 		sf::Sprite ObjectSprite;
 		sf::Vector2f ObjectPosition;
+		ECollisionPreset CollisionPreset = ECollisionPreset::Block;
 
 	public:
 		LevelObject(TextureType type, sf::Vector2f Position);
 		virtual ~LevelObject() {}
 
 		virtual void Update();
-		virtual void OnCollision(LevelObject& otherObject);
+		virtual void OnCollision(LevelObject* otherObject);
 
 		void SetSize(float size);
 		void Draw(sf::RenderWindow& window);
@@ -31,6 +42,11 @@ namespace Arcanoid
 
 		sf::FloatRect GetBounds();
 		sf::Vector2f GetPosition();
+
+		void MarkToRemove();
+		bool isMarkedToRemove();
+
+		ECollisionPreset GetCollisionPreset();
 	};
 }
 
